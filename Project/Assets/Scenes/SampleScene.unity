@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.01048136, g: 0.05296044, b: 0.15313104, a: 1}
+  m_IndirectSpecularColor: {r: 0.010485779, g: 0.052983798, b: 0.15318781, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -150,7 +150,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: fc87a2978d29bde4ea0b0f9885f44a09, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 23c095176b85c5147835cf40a1bfd23c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -388,14 +388,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ce501fb8cf5f0a4d82247fc8e941bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objetoConSeMueve: {fileID: 1399477229}
-  CamaramovCamara: {fileID: 963194225}
-  notaVerde: {fileID: 1291425959}
-  notaRoja: {fileID: 1456180288}
-  notaAmarrilla: {fileID: 1062094979}
-  notaAzul: {fileID: 1485549590}
-  notaNaranja: {fileID: 896367586}
-  separacion: 0
+  objetoConSeMueve: {fileID: 0}
+  CamaramovCamara: {fileID: 0}
+  notaVerde: {fileID: 0}
+  notaRoja: {fileID: 0}
+  notaAmarrilla: {fileID: 0}
+  notaAzul: {fileID: 0}
+  notaNaranja: {fileID: 0}
+  separacion: 10
 --- !u!4 &128546622
 Transform:
   m_ObjectHideFlags: 0
@@ -423,7 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499ab8dec3343574f85bfb714298e4da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicClip: {fileID: 8300000, guid: fc87a2978d29bde4ea0b0f9885f44a09, type: 3}
+  musicClip: {fileID: 8300000, guid: 23c095176b85c5147835cf40a1bfd23c, type: 3}
 --- !u!114 &128546624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,7 +436,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aed73b28b9e9294fabb8f827f15521c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cancion: Holaa
 --- !u!1 &144464730
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,11 +761,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &896367586 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7840307240166062463, guid: 2da87dda37c8edf4aa94f62cafb3f819, type: 3}
-  m_PrefabInstance: {fileID: 779799086753535555}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &924185644
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,12 +1080,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ca9aa5041071f45bb574e1de3c2974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seMueve: {fileID: 1399477236}
---- !u!1 &1062094979 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5456372439020034600, guid: d50e42e4a90adc247ad50431789e5e17, type: 3}
-  m_PrefabInstance: {fileID: 3883725186016405472}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1085046906
 GameObject:
   m_ObjectHideFlags: 0
@@ -1305,11 +1293,6 @@ RectTransform:
   m_AnchoredPosition: {x: 550.5, y: 255.889}
   m_SizeDelta: {x: 1101, y: 519}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1291425959 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6720658587271768670, guid: 566a143be1f05f0418a4f632ba381def, type: 3}
-  m_PrefabInstance: {fileID: 4537554335624575355}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1308962697
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,9 +1413,9 @@ GameObject:
   - component: {fileID: 1399477231}
   - component: {fileID: 1399477230}
   - component: {fileID: 1399477235}
-  - component: {fileID: 1399477236}
   - component: {fileID: 1399477237}
   - component: {fileID: 1399477238}
+  - component: {fileID: 1399477239}
   m_Layer: 0
   m_Name: Prota
   m_TagString: Untagged
@@ -1567,22 +1550,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prota: {fileID: 1399477229}
   Suelo: {fileID: 1085046906}
---- !u!114 &1399477236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1399477229}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be28ab3182b04bc4dbe59dab16cf1a72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0.1
-  salto: 5
-  saltar: 1
-  Prota: {fileID: 1399477229}
 --- !u!114 &1399477237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1610,16 +1577,18 @@ MonoBehaviour:
   Monedas: {fileID: 500527224}
   coinText: {fileID: 144464730}
   coinsCount: 0
---- !u!1 &1456180288 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3292976321194211652, guid: 28ff096cfaed2374992b8498fab2a0e2, type: 3}
-  m_PrefabInstance: {fileID: 7710954945147992053}
+--- !u!114 &1399477239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1485549590 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2602847780136112067, guid: d81130102a8525341824f237facf96af, type: 3}
-  m_PrefabInstance: {fileID: 8888081821333224797}
-  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399477229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be28ab3182b04bc4dbe59dab16cf1a72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1675154561
 GameObject:
   m_ObjectHideFlags: 0

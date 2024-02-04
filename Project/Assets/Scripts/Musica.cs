@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -8,12 +8,14 @@ using UnityEngine.UIElements;
 [Serializable]
 public class OnsetData
 {
-    public List<int> transientes;
+    public List<float> transientes;
     public List<string> carriles;
+    public float duracion;
 }
 
 public class Musica : MonoBehaviour
 {
+
     public GameObject objetoConSeMueve;
     public GameObject CamaramovCamara;
 
@@ -30,8 +32,17 @@ public class Musica : MonoBehaviour
     float posAz = 6.03f;
     float posN = 12.12f;
 
+    float distancia_seg;
+    int i = 0;
+
     float zPosition = 17.86f;
     public float separacion = 10;
+
+    public static float speedJugador;
+
+    public static float distanciaTotal;
+
+    public static float duracionCanción;
 
     public void CreateCaril(string color, float position)
     {
@@ -39,9 +50,9 @@ public class Musica : MonoBehaviour
         if (lanePrefab != null)
         {
 
-            Vector3 spawnPosition = new Vector3(position, 0, (zPosition + 5)); // Ajusta esto seg�n sea necesario
+            Vector3 spawnPosition = new Vector3(position, 0, (zPosition * distancia_seg) + 38.7f); // Ajusta esto seg�n sea necesario
             GameObject laneInstance = Instantiate(lanePrefab, spawnPosition, Quaternion.identity);
-            zPosition = laneInstance.transform.position.z;
+
         }
     }
 
@@ -67,6 +78,7 @@ public class Musica : MonoBehaviour
 
     void Start()
     {
+
         seMueve script = objetoConSeMueve.GetComponent<seMueve>();
         movCamara script2 = CamaramovCamara.GetComponent<movCamara>();
 
@@ -75,8 +87,23 @@ public class Musica : MonoBehaviour
         script2.enabled = false;
 
 
-        string json = File.ReadAllText("Assets\\Canciones\\data.json");
+        string json = File.ReadAllText("Assets\\Canciones\\chipi.json");
         OnsetData onsetData = JsonUtility.FromJson<OnsetData>(json);
+
+        float duracion = onsetData.duracion;
+
+        int countTransientes = onsetData.transientes.Count;
+        Debug.Log("countTransientes " + countTransientes);
+        float distancia_total = 50 * (countTransientes / 10);
+        Debug.Log("distancia_total " + distancia_total);
+        distancia_seg = distancia_total / duracion;
+        Debug.Log("distancia_seg " + distancia_seg);
+
+        //speedJugador = (distancia_total + 38.7f) / duracion; // Calcula la velocidad
+
+        distanciaTotal = distancia_total;
+        duracionCanción = duracion+2.5f;
+
 
         foreach (var color in onsetData.carriles)
         {
@@ -99,8 +126,12 @@ public class Musica : MonoBehaviour
                 case "azul":
                     position = posAz;
                     break;
-                    
+
             }
+
+            Debug.Log("Valor de onsetData.transientes[" + i + "]: " + onsetData.transientes[i]);
+            zPosition = onsetData.transientes[i];
+            i++;
 
             CreateCaril(color, position);
 

@@ -4,82 +4,45 @@ using UnityEngine;
 
 public class seMueve : MonoBehaviour
 {
-    public float speed = 0.05f;
-    public float salto = 5;
-    public bool saltar = true;
+    void Start()
+    {
+        StartCoroutine(MoverObjeto(Musica.duracionCanción));
+    }
 
-    public GameObject Prota;
+    private int color = 0;
+    private float[] posicionesX = new float[] { -11.94f, -5.58f, 0.33f, 6.03f, 12.12f };
 
-    float posV = -11.94f;
-    float posR = -5.58f;
-    float posAm = 0.33f;
-    float posAz = 6.03f;
-    float posN = 12.12f;
+    public IEnumerator MoverObjeto(float tiempoTotal)
+    {
+        Vector3 origen = transform.position;
+        Vector3 destino = new Vector3(origen.x, origen.y, origen.z + Musica.distanciaTotal);
+        float tiempoTranscurrido = 0f;
 
-    int color = 3;
-    float position = 0;
+        while (tiempoTranscurrido < tiempoTotal)
+        {
+            tiempoTranscurrido += Time.deltaTime;
+            float porcentaje = tiempoTranscurrido / tiempoTotal;
+            transform.position = Vector3.Lerp(origen, destino, porcentaje);
 
-    // Update is called once per frame
+            // Comprobar las entradas de teclado y mover el objeto a la posición X correspondiente
+            if (color > 0 && color <= posicionesX.Length)
+            {
+                transform.position = new Vector3(posicionesX[color - 1], transform.position.y, transform.position.z);
+            }
+
+            yield return null;
+        }
+
+        // Asegurarse de que el objeto llega exactamente al destino al final del tiempo total
+        transform.position = destino;
+    }
+
     void Update()
     {
-        transform.position += new Vector3(0, 0, speed);
-        if (Input.GetKeyDown(KeyCode.D)) InvokeRepeating("MoveRight", 0.0f, 0.5f);
-        if (Input.GetKeyDown(KeyCode.A)) InvokeRepeating("MoveLeft", 0.0f, 0.5f);
-
-        if (Input.GetKeyUp(KeyCode.D)) CancelInvoke("MoveRight");
-        if (Input.GetKeyUp(KeyCode.A)) CancelInvoke("MoveLeft");
-
-        if (Input.GetKey(KeyCode.Space) && saltar)
-        {
-            GetComponent<Rigidbody>().AddForce(Vector3.up * salto, ForceMode.Impulse);
-            saltar = false;
-        }
-    }
-
-    void MoveRight()
-    {
-        color++;
-        if (color > 5) color = 5;
-        SetPosition();
-        Prota.transform.position = new Vector3(position, Prota.transform.position.y, Prota.transform.position.z);
-    }
-
-    void MoveLeft()
-    {
-        color--;
-        if (color < 1) color = 1;
-        SetPosition();
-        Prota.transform.position = new Vector3(position, Prota.transform.position.y, Prota.transform.position.z);
-    }
-
-    void SetPosition()
-    {
-        switch (color)
-        {
-            case 1:
-                position = posV;
-                break;
-            case 2:
-                position = posR;
-                break;
-            case 3:
-                position = posAm;
-                break;
-            case 4:
-                position = posAz;
-                break;
-            case 5:
-                position = posN;
-                break;
-
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.tag.Equals("suelo"))
-        {
-            saltar = true;
-        }
+        if (Input.GetKeyDown(KeyCode.D)) { color = 1; }
+        else if (Input.GetKeyDown(KeyCode.F)) { color = 2; }
+        else if (Input.GetKeyDown(KeyCode.H)) { color = 3; }
+        else if (Input.GetKeyDown(KeyCode.J)) { color = 4; }
+        else if (Input.GetKeyDown(KeyCode.K)) { color = 5; }
     }
 }

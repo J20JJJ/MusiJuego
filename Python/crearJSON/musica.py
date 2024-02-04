@@ -1,3 +1,4 @@
+import os
 import librosa
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,45 +20,54 @@ def asignar_a_carril(transiente):
         carril = total_carriles - 1
     return ["verde", "rojo", "amarillo", "azul", "naranja"][carril]
 
-audio_file_path = r"..\cancionesMP3\aa.mp3"
+def detectar_ritmo(y, sr):
+    Y = np.abs(librosa.stft(y))
+    E = np.sum(Y**2, axis=0)
+    ritmo = np.argmax(E)
+    return ritmo
+
+audio_file_path = r"20.mp3"
 
 y, sr = librosa.load(audio_file_path, mono=True)
 
-# Pre-enfatizar la señal
 y_preemphasis = librosa.effects.preemphasis(y)
-
-# Calcular la envolvente de fuerza de onset
 onset_envelope = librosa.onset.onset_strength(y=y_preemphasis, sr=sr)
-
-# Calcular los onsets
 onsets = librosa.onset.onset_detect(onset_envelope=onset_envelope, sr=sr)
-
-# Obtener los índices de los onsets
 onset_times = np.where(onsets)[0]
-
-# Calcular la energía promedio de cada transiente
 energia_promedio = np.mean(onset_envelope)
-
-# Asignar cada transiente a un carril basándose en su energía relativa
 carriles = [asignar_a_carril(energia / energia_promedio) for energia in onset_envelope[onset_times]]
-
-# Definir un diccionario que mapee los nombres de los carriles a valores de color
 colores_carriles = {"verde": "green", "rojo": "red", "amarillo": "yellow", "azul": "blue", "naranja": "orange"}
+audio_filename = os.path.basename(audio_file_path)
+json_filename = os.path.splitext(audio_file_path)[0] + '.json'
+ritmo = detectar_ritmo(y, sr)
+velocidades = [tiempo / ritmo for tiempo in onset_times]
 
-# Calcular los intervalos de tiempo entre los onsets
-onset_intervals = np.diff(onset_times)
+# Calcular la duración de la canción
+duracion_cancion = librosa.get_duration(filename=audio_file_path)
 
-# Convertir los intervalos de tiempo a segundos
-onset_intervals_seconds = onset_intervals / sr
+# Contar el número de transientes únicos
+num_transientes = len(set(onset_times))
+
+# Calcular la duración de cada nota
+duracion_nota = duracion_cancion / num_transientes
+
+# Calcular el tiempo en segundos desde el inicio de la canción hasta que suena cada nota
+tiempos_notas = [duracion_nota * i for i in range(num_transientes)]
+
+# Generar una lista de transientes de 0 a 128
+transientes = list(range(129))
 
 # Exportar los datos a un archivo JSON
 data = {
-    "transientes": onset_times.tolist(),
+    "transientes": transientes,
     "carriles": carriles,
-    "onset_intervals": onset_intervals_seconds.tolist(),
+    "ritmo": ritmo,
+    "velocidades": velocidades,
+    "duracion_cancion": duracion_cancion,
+    "tiempos_notas": tiempos_notas,
 }
-with open('data.json', 'w') as f:
-    json.dump(data, f, cls=NumpyEncoder)
+with open(json_filename, 'w') as f:
+    json.dump(data, f, cls=NumpyEncoder, indent=4)
 
 # Visualizar los transientes en los carriles
 plt.figure(figsize=(12, 4))

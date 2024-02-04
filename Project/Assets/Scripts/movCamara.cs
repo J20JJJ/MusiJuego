@@ -4,18 +4,29 @@ using UnityEngine;
 
 public class movCamara : MonoBehaviour
 {
-    public seMueve seMueve;
-    private float speed;
 
-    // Start is called before the first frame update
     void Start()
     {
-        speed = seMueve.speed;
+        StartCoroutine(MoverObjeto(Musica.duracionCanción));
     }
 
-    // Update is called once per frame
-    void Update()
+    public IEnumerator MoverObjeto(float tiempoTotal)
     {
-        transform.position += new Vector3(0, 0, speed);
+
+        Vector3 origen = transform.position;
+        Vector3 destino = new Vector3(origen.x, origen.y, origen.z + Musica.distanciaTotal); // Suponiendo que la distancia es de 200 unidades en el eje Z
+        float tiempoTranscurrido = 0f;
+
+        while (tiempoTranscurrido < tiempoTotal)
+        {
+            tiempoTranscurrido += Time.deltaTime;
+            float porcentaje = tiempoTranscurrido / tiempoTotal;
+            transform.position = Vector3.Lerp(origen, destino, porcentaje);
+            yield return null;
+        }
+
+        // Asegurarse de que el objeto llega exactamente al destino al final del tiempo total
+        transform.position = destino;
     }
+
 }
